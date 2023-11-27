@@ -1,6 +1,6 @@
 import { createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
-import { logDir } from '../directories';
+import { appLogDir } from '../directories';
 
 const { combine, timestamp, colorize, printf } = format;
 
@@ -38,7 +38,7 @@ const logger = createLogger({
   transports: [
     new transports.DailyRotateFile({
       level: 'info',
-      dirname: logDir,
+      dirname: appLogDir,
       filename: '%DATE%-combined.log',
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
@@ -46,7 +46,7 @@ const logger = createLogger({
     }),
     new transports.DailyRotateFile({
       level: 'error',
-      dirname: logDir,
+      dirname: appLogDir,
       filename: '%DATE%-error.log',
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
