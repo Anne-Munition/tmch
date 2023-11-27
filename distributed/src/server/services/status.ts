@@ -5,6 +5,7 @@ import version from '../version';
 
 export default function getStatus() {
   return {
+    module: 'distributed',
     channels,
     connected: { tmi: tmi.isConnected() },
     system_ts: Date.now(),
