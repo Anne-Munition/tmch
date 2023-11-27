@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Logger, createLogger, format, transports } from 'winston';
 import channels from '../channels';
-import { dataDir } from '../directories';
+import { chatDir } from '../directories';
 
 const { combine, timestamp, printf } = format;
 
@@ -19,7 +19,7 @@ export function getDirName(channel: string) {
   const curDate = new Date();
   const curMonth = ('0' + (curDate.getMonth() + 1)).slice(-2);
   const curYYYYMM = curDate.getFullYear() + '-' + curMonth;
-  return path.join(dataDir, channel, curYYYYMM);
+  return path.join(chatDir, channel, curYYYYMM);
 }
 
 function getChatTransport(channel: string) {

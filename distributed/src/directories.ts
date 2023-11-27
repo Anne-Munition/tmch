@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 export const logDir = path.join(process.cwd(), 'logs');
-export const dataDir = path.join(process.cwd(), 'data');
+export const chatDir = path.join(process.cwd(), 'chat');
 
-const dirs = [logDir, dataDir];
+const dirs = [logDir, chatDir];
 
 for (let i = 0; i < dirs.length; i++) {
   try {
