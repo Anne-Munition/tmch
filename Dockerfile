@@ -18,6 +18,7 @@ RUN cd /app/distributed && \
 RUN pnpm --filter="./distributed" --prod deploy prod
 
 FROM base AS distributed
+ENV NODE_ENV=production
 COPY --from=distributed_builder /app/package.json /app/package.json
 COPY --from=distributed_builder /app/prod/node_modules /app/node_modules
 COPY --from=distributed_builder /app/prod/dist /app/dist
