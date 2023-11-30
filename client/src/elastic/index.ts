@@ -21,4 +21,12 @@ export async function ping(): Promise<void> {
   logger.info(`Connected to ElasticSearch: '${hostname}'`);
 }
 
-export async function bulkIndexTmi(messages: TmiMessage[]) {}
+export async function bulkIndexTmi(data: { channel: string; message: TmiMessage }[]) {
+  const operations = data.map((x) => {
+    const meta = { index: { _index: x.channel } };
+    return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);
+  });
+  return client.bulk({ operations }).catch(() => {
+    logger.error('Elastic bulkIndexTmi write error');
+  });
+}
