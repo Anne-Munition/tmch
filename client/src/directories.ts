@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const logDir = path.join(process.cwd(), 'logs');
-export const appLogDir = path.join(logDir, 'app')
+export const appLogDir = path.join(logDir, 'app');
 export const chatLogDir = path.join(logDir, 'chat');
 
 const dirs = [logDir, appLogDir, chatLogDir];

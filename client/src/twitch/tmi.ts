@@ -1,5 +1,8 @@
 import { Client } from 'tmi.js';
 import channels from '../channels';
+import { doWrite } from '../config';
+import parser from '../elastic/parser';
+import * as queue from '../elastic/queue';
 import logger from '../logger';
 import chatLoggers from '../logger/chat_logger';
 
@@ -36,6 +39,11 @@ client.on('raw_message', async (msg) => {
   if (skip) return;
   if (ignoredCommands.includes(msg.command)) return;
   if (/^\d+$/.test(msg.command)) return;
+
+  if (doWrite) {
+    const message = parser.tmiMessage(msg);
+    queue.add(message);
+  }
 
   const channel = msg.params[0];
   if (!channel) return;
