@@ -3,7 +3,9 @@ function tmiMessage(msg: { [p: string]: any }): TmiMessage {
     if (msg.tags[tag] === true) msg.tags[tag] = null;
   }
 
-  const timestamp = msg.tags['tmi-sent-ts'] ? new Date(msg.tags['tmi-sent-ts']) : new Date();
+  const timestamp = msg.tags['tmi-sent-ts']
+    ? new Date(parseInt(msg.tags['tmi-sent-ts']))
+    : new Date();
 
   let name = msg.tags['display-name'];
   // Edge case where display-name ends in a space

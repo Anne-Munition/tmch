@@ -40,15 +40,15 @@ client.on('raw_message', async (msg) => {
   if (ignoredCommands.includes(msg.command)) return;
   if (/^\d+$/.test(msg.command)) return;
 
-  if (doWrite) {
-    const message = parser.tmiMessage(msg);
-    queue.add(message);
-  }
-
   const channel = msg.params[0];
   if (!channel) return;
-  if (!chatLoggers[channel]) return;
-  chatLoggers[channel].info(msg.raw, { command: msg.command });
+
+  if (chatLoggers[channel]) chatLoggers[channel].info(msg.raw, { command: msg.command });
+
+  if (doWrite) {
+    const message = parser.tmiMessage(msg);
+    queue.add(channel, message);
+  }
 });
 
 export async function connect(): Promise<void> {
