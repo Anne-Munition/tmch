@@ -8,9 +8,9 @@ export function init() {
   client = new Client({
     node: esUrl,
     /*auth: {
-          username: esUser,
-          password: esPass,
-        },*/
+      username: process.env.ES_USERNAME as string,
+      password: process.env.ES_PASSWORD as string,
+    },*/
   });
 }
 
@@ -21,12 +21,13 @@ export async function ping(): Promise<void> {
   logger.info(`Connected to ElasticSearch: '${hostname}'`);
 }
 
-export async function bulkIndexTmi(data: { channel: string; message: TmiMessage }[]) {
+export function bulkIndexTmi(data: { channel: string; message: TmiMessage }[]): void {
   const operations = data.map((x) => {
-    const meta = { index: { _index: x.channel } };
+    const meta = { create: { _index: `tmi-${x.channel.slice(1)}` } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);
   });
-  return client.bulk({ operations }).catch(() => {
+  client.bulk({ operations }).catch((e: Error) => {
     logger.error('Elastic bulkIndexTmi write error');
+    logger.error(e);
   });
 }

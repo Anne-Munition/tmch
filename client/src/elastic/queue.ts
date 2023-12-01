@@ -18,17 +18,12 @@ export function add(channel: string, message: TmiMessage) {
 }
 
 // Do NOT return early out of this function
-async function process() {
+function process() {
   if (processing) return;
   processing = true;
   if (timer) clearTimeout(timer);
-  try {
-    const messages = queue.splice(0, length);
-    if (messages.length) await bulkIndexTmi(messages);
-  } catch (e) {
-    logger.error('Bulk Index Tmi Error');
-    logger.error(e);
-  }
+  const messages = queue.splice(0, length);
+  if (messages.length) bulkIndexTmi(messages);
   processing = false;
   start();
 }
@@ -36,7 +31,7 @@ async function process() {
 export async function empty(): Promise<void> {
   logger.info('Emptying the queue...');
   while (queue.length) {
-    await process();
+    process();
   }
-  logger.info('Queue emptied.');
+  logger.info('Queue emptied');
 }

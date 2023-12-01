@@ -1,7 +1,6 @@
 .idea
 dist
-node_modules
-chat
 logs
+node_modules
 
 .env

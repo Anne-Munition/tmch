@@ -3,7 +3,10 @@ import * as elastic from './elastic';
 import * as queue from './elastic/queue';
 import logger from './logger';
 import * as server from './server';
+import version from './server/version';
 import * as tmi from './twitch/tmi';
+
+logger.info(`Starting Client Application v${version()}...`);
 
 async function start() {
   config.verify();
