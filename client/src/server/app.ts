@@ -9,10 +9,6 @@ app.use(compression());
 if (process.env.NODE_ENV === 'production') app.use(morgan('short'));
 else app.use(morgan('dev'));
 
-app.get('/', (req, res, next) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
 app.get('/status', (req, res, next) => {
   try {
     const response = StatusService();
