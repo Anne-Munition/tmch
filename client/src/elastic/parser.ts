@@ -1,4 +1,6 @@
-function tmiMessage(msg: { [p: string]: any }): TmiMessage {
+import { ChatUserstate } from 'tmi.js';
+
+function tmiMessage(msg: ChatUserstate): ElasticTmi {
   for (const tag in msg.tags) {
     if (msg.tags[tag] === true) msg.tags[tag] = null;
   }

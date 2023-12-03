@@ -21,7 +21,7 @@ export async function ping(): Promise<void> {
   logger.info(`Connected to ElasticSearch: '${hostname}'`);
 }
 
-export function bulkIndexTmi(data: { channel: string; message: TmiMessage }[]): void {
+export function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]): void {
   const operations = data.map((x) => {
     const meta = { create: { _index: `tmi-${x.channel.slice(1)}` } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);

@@ -1,7 +1,7 @@
 import logger from '../logger';
 import { bulkIndexTmi } from './index';
 
-const queue: { channel: string; message: TmiMessage }[] = [];
+const queue: { channel: string; message: ElasticTmi }[] = [];
 let processing = false;
 const length = 100;
 const minutes = 5;
@@ -12,7 +12,7 @@ export function start() {
   timer = setTimeout(process, 1000 * 60 * minutes);
 }
 
-export function add(channel: string, message: TmiMessage) {
+export function add(channel: string, message: ElasticTmi) {
   queue.push({ channel, message });
   if (queue.length >= length) process();
 }

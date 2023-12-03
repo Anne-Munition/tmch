@@ -1,4 +1,4 @@
-import { Client } from 'tmi.js';
+import { ChatUserstate, Client } from 'tmi.js';
 import channels from '../channels';
 import { doWrite } from '../config';
 import parser from '../elastic/parser';
@@ -26,7 +26,7 @@ const ignoredCommands = [
 ];
 let skip = false;
 
-client.on('raw_message', async (msg) => {
+client.on('raw_message', async (msg: ChatUserstate) => {
   // Don't process messages for the first 10 seconds after connection (CAP)
   // as these contain reoccurring HOSTTARGET | NOTICE | ROOMSTATE | USERSTATE messages
   // when first joining a channel
