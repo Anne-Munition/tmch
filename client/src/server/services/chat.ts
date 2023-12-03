@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { ungzip } from 'node-gzip';
-import { getDirName } from '../../logger/chat_logger';
+import { chatLogDir } from '../../directories';
 
 async function getChatFileName(channelName: string, date: string): Promise<string | null> {
   const channel = '#' + channelName.toLowerCase().replace('#', '');
-  const directory = getDirName(channel);
+  const directory = path.join(chatLogDir, channel);
 
   const logPath = path.join(directory, `${channel}-${date}.log`);
   const logExists = await exists(logPath);
@@ -21,11 +21,7 @@ async function getChatFileName(channelName: string, date: string): Promise<strin
 async function exists(location: string): Promise<boolean> {
   return new Promise((resolve) => {
     fs.access(location, fs.constants.F_OK, (err) => {
-      if (err) {
-        resolve(false);
-        return;
-      }
-      resolve(true);
+      resolve(err === null);
     });
   });
 }
