@@ -4,7 +4,7 @@ import * as tmi from '../../twitch/tmi';
 import uptime from '../uptime';
 import version from '../version';
 
-export default function getStatus() {
+export default function getStatus(): Status {
   return {
     module: 'client',
     channels,

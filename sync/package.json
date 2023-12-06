@@ -1,0 +1,38 @@
+{
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only -r dotenv/config ./src",
+    "manual": "ts-node-dev --transpile-only -r dotenv/config ./src/consolidate/manual.ts",
+    "build": "rimraf ./dist && tsc",
+    "prettier": "prettier --write \"**/*.{js,ts,md,*rc,json}\" --ignore-path ../.gitignore",
+    "lint": "eslint --ext .js,.ts --ignore-path ../.gitignore ."
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.10.0",
+    "axios": "^1.6.2",
+    "cron": "^3.1.6",
+    "cronstrue": "^2.47.0",
+    "lodash": "^4.17.21",
+    "luxon": "^3.4.4",
+    "pushover-notifications": "^1.2.2",
+    "tmi-parser": "github:dbkynd/tmi.js#parser",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.202",
+    "@types/luxon": "^3.3.6",
+    "@types/node": "^20.9.4",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.2"
+  }
+}
