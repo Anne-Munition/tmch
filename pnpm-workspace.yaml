@@ -2,3 +2,4 @@ packages:
   - 'client'
   - 'sync'
   - 'web'
+  - 'packages/*'

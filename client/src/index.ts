@@ -1,5 +1,8 @@
+import version from 'version';
 import app from './app';
 import logger from './logger';
+
+logger.info(`Starting Client Application v${version()}...`);
 
 app
   .start()

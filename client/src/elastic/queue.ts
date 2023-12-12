@@ -1,3 +1,4 @@
+import ViewerService from '../database/lib/viewers';
 import logger from '../logger';
 import { bulkIndexTmi } from './index';
 
@@ -23,7 +24,18 @@ function process() {
   processing = true;
   if (timer) clearTimeout(timer);
   const messages = queue.splice(0, length);
-  if (messages.length) bulkIndexTmi(messages);
+  if (messages.length) {
+    try {
+      bulkIndexTmi(messages);
+    } catch (e) {
+      // Do Nothing
+    }
+    try {
+      ViewerService.store(messages);
+    } catch (e) {
+      // Do Nothing
+    }
+  }
   processing = false;
   start();
 }
