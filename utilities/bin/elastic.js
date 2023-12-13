@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tmiMessage = void 0;
+exports.getIndex = exports.tmiMessage = void 0;
 exports.default = (client, logger, esUrl) => {
     async function ping() {
         const { hostname, pathname } = new URL(esUrl);
@@ -38,3 +38,9 @@ function tmiMessage(msg) {
     };
 }
 exports.tmiMessage = tmiMessage;
+function getIndex(channel) {
+    return process.env.NODE_ENV === 'production'
+        ? `tmi-${channel.slice(1)}`
+        : `dev-tmi-${channel.slice(1)}`;
+}
+exports.getIndex = getIndex;

@@ -16,4 +16,8 @@ interface LogLine {
   tmiId?: string;
 }
 
-declare module 'tmi-parser';
+declare module 'tmi-parser' {
+  import { ChatUserstate } from 'tmi.js';
+  function msg(raw_message: string): ChatUserstate;
+  export = { msg };
+}

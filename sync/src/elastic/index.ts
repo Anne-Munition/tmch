@@ -5,6 +5,7 @@ import {
   MsearchRequestItem,
 } from '@elastic/elasticsearch/lib/api/types';
 import { DateTime } from 'luxon';
+import parser from 'tmi-parser';
 import utilities from 'utilities';
 import { esUrl } from '../config';
 import logger from '../logger';
@@ -28,7 +29,7 @@ export async function ping() {
 export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) {
   const searches: MsearchRequestItem[] = [];
   messages.forEach((message) => {
-    const header: MsearchMultisearchHeader = { index: `tmi-${channel}` };
+    const header: MsearchMultisearchHeader = { index: utilities.getIndex(channel) };
     const body: MsearchMultisearchBody = {
       query: {
         bool: {
@@ -47,7 +48,7 @@ export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) 
 
 export async function tmiBulkIndex(channel: string, messages: ElasticTmi[]) {
   const operations = messages.map((message) => {
-    const meta = { create: { _index: `tmi-${channel}` } };
+    const meta = { create: { _index: utilities.getIndex(channel) } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(message);
   });
   return client.bulk({ operations });
@@ -56,7 +57,7 @@ export async function tmiBulkIndex(channel: string, messages: ElasticTmi[]) {
 export async function looseBulkSearch(channel: string, messages: LogLine[]) {
   const searches: MsearchRequestItem[] = [];
   messages.forEach((message) => {
-    const header: MsearchMultisearchHeader = { index: `tmi-${channel}` };
+    const header: MsearchMultisearchHeader = { index: utilities.getIndex(channel) };
     const body: MsearchMultisearchBody = {
       query: {
         bool: {
@@ -84,4 +85,8 @@ export async function looseBulkSearch(channel: string, messages: LogLine[]) {
     searches.push(body);
   });
   return client.msearch({ searches }).then((data) => data.responses);
+}
+
+export function createElasticBody(line: LogLine): ElasticTmi {
+  return utilities.parser(parser.msg(line.message));
 }

@@ -41,3 +41,9 @@ export function tmiMessage(msg: ChatUserstate): ElasticTmi {
     login: name ? name.toLowerCase() : undefined,
   };
 }
+
+export function getIndex(channel: string) {
+  return process.env.NODE_ENV === 'production'
+    ? `tmi-${channel.slice(1)}`
+    : `dev-tmi-${channel.slice(1)}`;
+}

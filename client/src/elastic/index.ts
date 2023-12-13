@@ -21,14 +21,8 @@ export async function ping() {
 
 export async function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]) {
   const operations = data.map((x) => {
-    const meta = { create: { _index: getIndex(x.channel) } };
+    const meta = { create: { _index: utilities.getIndex(x.channel) } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);
   });
   return client.bulk({ operations });
-}
-
-function getIndex(channel: string) {
-  return process.env.NODE_ENV === 'production'
-    ? `tmi-${channel.slice(1)}`
-    : `dev-tmi-${channel.slice(1)}`;
 }

@@ -222,11 +222,9 @@ async function processStrictLines(logs: LogLine[]): Promise<LogLine[]> {
     if (toAdd.length) {
       addedLines.push(...toAdd);
       const messages = toAdd.map((x) => elastic.createElasticBody(x));
-      await elastic.tmiBulkIndex(channel as string, messages).catch(() => {});
+      await elastic.tmiBulkIndex(channel as string, messages);
     }
-    await utilities.ViewerService.store(
-      chunkedLogs[i].map((x) => elastic.createElasticBody(x)),
-    ).catch(() => {});
+    await utilities.ViewerService.store(chunkedLogs[i].map((x) => elastic.createElasticBody(x)));
   }
   return addedLines;
 }
@@ -249,12 +247,10 @@ async function processLooseLines(logs: LogLine[]): Promise<LogLine[]> {
     }
     if (toAdd.length) {
       addedLines.push(...toAdd);
-      const messages = toAdd.map((x) => createElasticBody(x));
-      await elastic.tmiBulkIndex(channel as string, messages).catch(() => {});
+      const messages = toAdd.map((x) => elastic.createElasticBody(x));
+      await elastic.tmiBulkIndex(channel as string, messages);
     }
-    await utilities.ViewerService.store(chunkedLogs[i].map((x) => createElasticBody(x))).catch(
-      () => {},
-    );
+    await utilities.ViewerService.store(chunkedLogs[i].map((x) => elastic.createElasticBody(x)));
   }
   return addedLines;
 }
