@@ -9,3 +9,12 @@ interface ElasticTmi {
   display_name?: string;
   login: string;
 }
+
+interface MsearchResult {
+  status: number;
+  hits: {
+    total: {
+      value: number;
+    };
+  };
+}
