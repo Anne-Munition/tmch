@@ -15,8 +15,7 @@
     "morgan": "^1.10.0",
     "node-gzip": "^1.1.2",
     "tmi.js": "^1.8.5",
-    "uptime": "workspace:*",
-    "version": "workspace:*",
+    "utilities": "workspace:*",
     "winston": "^3.11.0",
     "winston-daily-rotate-file": "^4.7.1"
   },

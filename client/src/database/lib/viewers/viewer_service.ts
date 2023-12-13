@@ -15,7 +15,7 @@ async function store(messages: { channel: string; message: ElasticTmi }[]) {
   });
 
   // @ts-expect-error $addToSet
-  await ViewerModel.collection.bulkWrite(items);
+  return ViewerModel.collection.bulkWrite(items);
 }
 
 export default {

@@ -1,5 +1,6 @@
 packages:
+  - 'api'
   - 'client'
   - 'sync'
   - 'web'
-  - 'packages/*'
+  - 'utilities'

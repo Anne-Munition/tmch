@@ -1,5 +1,4 @@
-import uptime from 'uptime';
-import version from 'version';
+import { uptime, version } from 'utilities';
 import channels from '../../channels';
 import { doWrite } from '../../config';
 import * as tmi from '../../twitch/tmi';

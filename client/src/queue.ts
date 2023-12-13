@@ -30,6 +30,7 @@ async function process() {
     await ViewerService.store(messages).catch(() => {});
   }
   processing = false;
+  logger.debug('done processing tmi queue');
   start();
 }
 

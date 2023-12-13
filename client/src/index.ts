@@ -1,4 +1,4 @@
-import version from 'version';
+import { version } from 'utilities';
 import app from './app';
 import logger from './logger';
 

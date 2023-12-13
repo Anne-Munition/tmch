@@ -15,24 +15,23 @@ export function init() {
 }
 
 export async function ping(): Promise<void> {
-  const { hostname } = new URL(esUrl);
+  const { hostname, pathname } = new URL(esUrl);
   const response = await client.ping();
-  if (!response) throw new Error(`Unable to connect to ElasticSearch server: '${hostname}'`);
+  if (!response)
+    throw new Error(`Unable to connect to ElasticSearch server: '${hostname}${pathname}'`);
   logger.info(`Connected to ElasticSearch: '${hostname}'`);
 }
 
-export async function bulkIndexTmi(
-  data: { channel: string; message: ElasticTmi }[],
-): Promise<void> {
+export async function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]) {
   const operations = data.map((x) => {
     const meta = { create: { _index: getIndex(x.channel) } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);
   });
-  await client.bulk({ operations });
+  return client.bulk({ operations });
 }
 
 function getIndex(channel: string) {
   return process.env.NODE_ENV === 'production'
     ? `tmi-${channel.slice(1)}`
-    : `tmi-dev-${channel.slice(1)}`;
+    : `dev-tmi-${channel.slice(1)}`;
 }

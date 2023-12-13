@@ -5,7 +5,7 @@ FROM base AS pnpm
 RUN corepack enable && corepack prepare pnpm@8.11.0 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY client/package.json ./client/package.json
-COPY ./packages/ ./packages/
+COPY utilities/package.json ./utilities/package.json
 RUN pnpm install --frozen-lockfile
 
 FROM pnpm AS src

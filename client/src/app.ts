@@ -1,3 +1,4 @@
+import channels from './channels';
 import * as config from './config';
 import * as database from './database';
 import * as elastic from './elastic';
@@ -8,6 +9,7 @@ import * as tmi from './twitch/tmi';
 
 async function start() {
   config.verify();
+  logger.info(`Channels: ${channels.join(' | ')}`);
   if (config.doWrite) {
     logger.info('THIS CLIENT IS IN WRITE MODE');
     await database.connect();
