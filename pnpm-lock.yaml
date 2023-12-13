@@ -186,6 +186,9 @@ importers:
       '@elastic/elasticsearch':
         specifier: ^8.10.0
         version: 8.10.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       luxon:
         specifier: ^3.4.4
         version: 3.4.4
@@ -202,6 +205,9 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1(winston@3.11.0)
     devDependencies:
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/luxon':
         specifier: ^3.3.7
         version: 3.3.7

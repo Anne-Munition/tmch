@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.10.0",
+    "lodash": "^4.17.21",
     "luxon": "^3.4.4",
     "mongoose": "^8.0.3",
     "tmi-parser": "github:dbkynd/tmi.js#parser",
@@ -14,6 +15,7 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.202",
     "@types/luxon": "^3.3.7",
     "@types/node": "^20.10.4",
     "rimraf": "^5.0.5",

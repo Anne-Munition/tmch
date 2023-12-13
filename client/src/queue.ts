@@ -26,8 +26,12 @@ async function process() {
   if (timer) clearTimeout(timer);
   const messages = queue.splice(0, length);
   if (messages.length) {
-    await bulkIndexTmi(messages).catch(() => {});
-    await utilities.ViewerService.store(messages.map((x) => x.message)).catch(() => {});
+    await bulkIndexTmi(messages).catch((e) => {
+      logger.error(e);
+    });
+    await utilities.ViewerService.store(messages.map((x) => x.message)).catch((e) => {
+      logger.error(e);
+    });
   }
   processing = false;
   logger.debug('done processing tmi queue');

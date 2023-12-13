@@ -1,7 +1,8 @@
 import ViewerModel from './viewer_model';
+import _ from 'lodash';
 
 async function store(messages: ElasticTmi[]) {
-  const items = messages.map((x) => {
+  const items = _.uniqBy(messages, 'login').map((x) => {
     return {
       updateOne: {
         filter: { twitchId: x.user_id },
