@@ -11,7 +11,11 @@ RUN pnpm install --frozen-lockfile
 FROM pnpm AS src
 COPY . .
 
-FROM src AS client_builder
+FROM src AS utilities_builder
+RUN cd /app/utilities && \
+    pnpm run build
+
+FROM utilities_builder AS client_builder
 RUN cd /app/client && \
     pnpm run prettier && \
     pnpm run lint && \
