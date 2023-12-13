@@ -9,6 +9,7 @@ const logger_1 = __importDefault(require("./logger"));
 const database_1 = __importDefault(require("./database"));
 const elastic_1 = __importDefault(require("./elastic"));
 const viewer_service_1 = __importDefault(require("./database/lib/viewers/viewer_service"));
+const main_1 = __importDefault(require("./main"));
 exports.default = {
     version: version_1.default,
     uptime: uptime_1.default,
@@ -16,4 +17,5 @@ exports.default = {
     database: database_1.default,
     elastic: elastic_1.default,
     ViewerService: viewer_service_1.default,
+    main: main_1.default,
 };

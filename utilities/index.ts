@@ -4,6 +4,7 @@ import logger from './logger';
 import database from './database';
 import elastic from './elastic';
 import ViewerService from './database/lib/viewers/viewer_service';
+import main from './main';
 
 export default {
   version,
@@ -12,4 +13,5 @@ export default {
   database,
   elastic,
   ViewerService,
+  main,
 };
