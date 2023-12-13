@@ -21,13 +21,18 @@ export async function ping(): Promise<void> {
   logger.info(`Connected to ElasticSearch: '${hostname}'`);
 }
 
-export function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]): void {
+export async function bulkIndexTmi(
+  data: { channel: string; message: ElasticTmi }[],
+): Promise<void> {
   const operations = data.map((x) => {
-    const meta = { create: { _index: `tmi-${x.channel.slice(1)}` } };
+    const meta = { create: { _index: getIndex(x.channel) } };
     return JSON.stringify(meta) + '\n' + JSON.stringify(x.message);
   });
-  client.bulk({ operations }).catch((e: Error) => {
-    logger.error('Elastic bulkIndexTmi write error');
-    logger.error(e);
-  });
+  await client.bulk({ operations });
+}
+
+function getIndex(channel: string) {
+  return process.env.NODE_ENV === 'production'
+    ? `tmi-${channel.slice(1)}`
+    : `tmi-dev-${channel.slice(1)}`;
 }

@@ -2,9 +2,9 @@ import { ChatUserstate, Client } from 'tmi.js';
 import channels from '../channels';
 import { doWrite } from '../config';
 import parser from '../elastic/parser';
-import * as queue from '../elastic/queue';
 import logger from '../logger';
 import chatLoggers from '../logger/chat_logger';
+import * as queue from '../queue';
 
 const client = new Client({
   connection: {

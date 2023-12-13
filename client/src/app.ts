@@ -1,8 +1,8 @@
 import * as config from './config';
 import * as database from './database';
 import * as elastic from './elastic';
-import * as queue from './elastic/queue';
 import logger from './logger';
+import * as queue from './queue';
 import * as server from './server';
 import * as tmi from './twitch/tmi';
 

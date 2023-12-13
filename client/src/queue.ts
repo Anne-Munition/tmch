@@ -1,6 +1,6 @@
-import ViewerService from '../database/lib/viewers';
-import logger from '../logger';
-import { bulkIndexTmi } from './index';
+import ViewerService from './database/lib/viewers';
+import { bulkIndexTmi } from './elastic';
+import logger from './logger';
 
 const queue: { channel: string; message: ElasticTmi }[] = [];
 let processing = false;
@@ -19,22 +19,15 @@ export function add(channel: string, message: ElasticTmi) {
 }
 
 // Do NOT return early out of this function
-function process() {
+async function process() {
   if (processing) return;
+  logger.debug('processing tmi queue');
   processing = true;
   if (timer) clearTimeout(timer);
   const messages = queue.splice(0, length);
   if (messages.length) {
-    try {
-      bulkIndexTmi(messages);
-    } catch (e) {
-      // Do Nothing
-    }
-    try {
-      ViewerService.store(messages);
-    } catch (e) {
-      // Do Nothing
-    }
+    await bulkIndexTmi(messages).catch(() => {});
+    await ViewerService.store(messages).catch(() => {});
   }
   processing = false;
   start();
@@ -43,7 +36,7 @@ function process() {
 export async function empty(): Promise<void> {
   logger.info('Emptying the queue...');
   while (queue.length) {
-    process();
+    await process();
   }
   logger.info('Queue emptied');
 }

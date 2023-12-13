@@ -1,9 +1,13 @@
 {
   "name": "version",
-  "main": "index.ts",
+  "main": "bin/index.js",
   "types": "index.ts",
+  "scripts": {
+    "build": "rimraf ./bin && tsc"
+  },
   "devDependencies": {
     "@types/node": "^20.10.4",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   }
 }

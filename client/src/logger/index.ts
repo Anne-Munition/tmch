@@ -52,16 +52,11 @@ const logger = createLogger({
       zippedArchive: true,
       maxFiles: '30d',
     }),
-  ],
-});
-
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
     new transports.Console({
-      level: 'debug',
+      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: combine(timestamp(), enumerateErrorFormat(), colorize(), logFormat),
     }),
-  );
-}
+  ],
+});
 
 export default logger;

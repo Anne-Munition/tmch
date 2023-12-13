@@ -1,6 +1,6 @@
 import ViewerModel from './viewer_model';
 
-function store(messages: { channel: string; message: ElasticTmi }[]) {
+async function store(messages: { channel: string; message: ElasticTmi }[]) {
   const items = messages.map((x) => {
     return {
       updateOne: {
@@ -15,7 +15,7 @@ function store(messages: { channel: string; message: ElasticTmi }[]) {
   });
 
   // @ts-expect-error $addToSet
-  ViewerModel.collection.bulkWrite(items).catch(() => {});
+  await ViewerModel.collection.bulkWrite(items);
 }
 
 export default {

@@ -1,13 +1,17 @@
 {
   "name": "uptime",
-  "main": "index.ts",
+  "main": "bin/index.js",
   "types": "index.ts",
+  "scripts": {
+    "build": "rimraf ./bin && tsc"
+  },
   "dependencies": {
     "luxon": "^3.4.4"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.7",
     "@types/node": "^20.10.4",
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   }
 }
