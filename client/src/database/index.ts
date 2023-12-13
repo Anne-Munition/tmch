@@ -19,3 +19,7 @@ export function getConnectionString(): string {
   if (!process.env.MONGO_URL) throw new Error('Missing MONGO_URL');
   return process.env.MONGO_URL;
 }
+
+export function isConnected(): boolean {
+  return mongoose.connection.readyState === 1;
+}
