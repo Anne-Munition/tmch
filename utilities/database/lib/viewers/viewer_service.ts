@@ -1,13 +1,13 @@
 import ViewerModel from './viewer_model';
 
-async function store(messages: { channel: string; message: ElasticTmi }[]) {
+async function store(messages: ElasticTmi[]) {
   const items = messages.map((x) => {
     return {
       updateOne: {
-        filter: { twitchId: x.message.user_id },
+        filter: { twitchId: x.user_id },
         update: {
-          $set: { login: x.message.login, displayName: x.message.display_name },
-          $addToSet: { names: { login: x.message.login, displayName: x.message.display_name } },
+          $set: { login: x.login, displayName: x.display_name },
+          $addToSet: { names: { login: x.login, displayName: x.display_name } },
         },
         upsert: true,
       },

@@ -1,15 +1,14 @@
 import * as config from './config';
 import cron from './cron';
+import database from './database';
 import * as elastic from './elastic';
 import logger from './logger';
 import * as pushover from './pushover';
-import version from './server/version';
 import * as status from './status';
-
-logger.info(`Starting Client Application v${version()}...`);
 
 async function start() {
   config.validate();
+  await database.connect();
   elastic.init();
   await elastic.ping();
   pushover.init();
@@ -18,7 +17,7 @@ async function start() {
 }
 
 async function stop() {
-  const shutdownSequence = [status.stop];
+  const shutdownSequence = [status.stop, database.disconnect];
 
   for (let i = 0; i < shutdownSequence.length; i++) {
     try {

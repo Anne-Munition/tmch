@@ -5,6 +5,7 @@ import {
   MsearchRequestItem,
 } from '@elastic/elasticsearch/lib/api/types';
 import { DateTime } from 'luxon';
+import utilities from 'utilities';
 import { esUrl } from '../config';
 import logger from '../logger';
 
@@ -20,12 +21,8 @@ export function init() {
   });
 }
 
-export async function ping(): Promise<void> {
-  const { hostname } = new URL(esUrl);
-  const response = await client.ping();
-  if (!response) throw new Error(`Unable to connect to ElasticSearch server: '${hostname}'`);
-  logger.info(`Connected to ElasticSearch: '${hostname}'`);
-  // await client.indices.create({ index: 'tmi-annemunition' });
+export async function ping() {
+  return utilities.elastic(client, logger, esUrl).ping();
 }
 
 export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) {

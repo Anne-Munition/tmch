@@ -1,7 +1,7 @@
 import axios from 'axios';
 import lodash from 'lodash';
 import { DateTime, Duration } from 'luxon';
-import parser from 'tmi-parser';
+import utilities from 'utilities';
 import * as elastic from '../elastic';
 import logger from '../logger';
 import * as pushover from '../pushover';
@@ -212,19 +212,21 @@ async function processStrictLines(logs: LogLine[]): Promise<LogLine[]> {
     const toAdd: LogLine[] = [];
     for (let j = 0; j < results.length; j++) {
       const log = chunkedLogs[i][j];
-      const result = results[j];
+      const result = results[j] as MsearchResult;
       if (result.status === 200) {
         if (result.hits.total.value === 0) toAdd.push(log);
       } else if (result.status === 404) {
         toAdd.push(log);
       }
     }
-    if (!toAdd.length) continue;
-    addedLines.push(...toAdd);
-    await elastic.tmiBulkIndex(
-      channel as string,
-      toAdd.map((x) => createElasticBody(x)),
-    );
+    if (toAdd.length) {
+      addedLines.push(...toAdd);
+      const messages = toAdd.map((x) => elastic.createElasticBody(x));
+      await elastic.tmiBulkIndex(channel as string, messages).catch(() => {});
+    }
+    await utilities.ViewerService.store(
+      chunkedLogs[i].map((x) => elastic.createElasticBody(x)),
+    ).catch(() => {});
   }
   return addedLines;
 }
@@ -238,47 +240,21 @@ async function processLooseLines(logs: LogLine[]): Promise<LogLine[]> {
     const toAdd: LogLine[] = [];
     for (let j = 0; j < results.length; j++) {
       const log = chunkedLogs[i][j];
-      const result = results[j];
+      const result = results[j] as MsearchResult;
       if (result.status === 200) {
         if (result.hits.total.value === 0) toAdd.push(log);
       } else if (result.status === 404) {
         toAdd.push(log);
       }
     }
-    if (!toAdd.length) continue;
-    addedLines.push(...toAdd);
-    await elastic.tmiBulkIndex(
-      channel as string,
-      toAdd.map((x) => createElasticBody(x)),
+    if (toAdd.length) {
+      addedLines.push(...toAdd);
+      const messages = toAdd.map((x) => createElasticBody(x));
+      await elastic.tmiBulkIndex(channel as string, messages).catch(() => {});
+    }
+    await utilities.ViewerService.store(chunkedLogs[i].map((x) => createElasticBody(x))).catch(
+      () => {},
     );
   }
   return addedLines;
-}
-
-function createElasticBody(line: LogLine): ElasticTmi {
-  const msg = parser.msg(line.message);
-
-  for (const tag in msg.tags) {
-    if (msg.tags[tag] === true) msg.tags[tag] = null;
-  }
-
-  const timestamp = msg.tags['tmi-sent-ts']
-    ? new Date(parseInt(msg.tags['tmi-sent-ts']))
-    : new Date();
-
-  let name = msg.tags['display-name'];
-  // Edge case where display-name ends in a space
-  if (name) name = name.trim();
-
-  return {
-    '@timestamp': timestamp.toISOString(),
-    id: msg.tags['id'],
-    raw: msg.raw,
-    command: msg.command,
-    message: msg.params[1],
-    msg_id: msg.tags['msg-id'],
-    user_id: msg.tags['user-id'],
-    display_name: name,
-    login: name ? name.toLowerCase() : undefined,
-  };
 }

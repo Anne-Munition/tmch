@@ -5,13 +5,17 @@ FROM base AS pnpm
 RUN corepack enable && corepack prepare pnpm@8.11.0 --activate
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY sync/package.json ./sync/package.json
-COPY ./packages/ ./packages/
+COPY utilities/package.json ./utilities/package.json
 RUN pnpm install --frozen-lockfile
 
 FROM pnpm AS src
 COPY . .
 
-FROM src AS sync_builder
+FROM src AS utilities_builder
+RUN cd /app/utilities && \
+    pnpm run build
+
+FROM utilities_builder AS sync_builder
 RUN cd /app/sync && \
     pnpm run prettier && \
     pnpm run lint && \

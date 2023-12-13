@@ -15,8 +15,7 @@
     "luxon": "^3.4.4",
     "pushover-notifications": "^1.2.2",
     "tmi-parser": "github:dbkynd/tmi.js#parser",
-    "winston": "^3.11.0",
-    "winston-daily-rotate-file": "^4.7.1"
+    "utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",
