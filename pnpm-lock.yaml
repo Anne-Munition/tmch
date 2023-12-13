@@ -195,9 +195,9 @@ importers:
       mongoose:
         specifier: ^8.0.3
         version: 8.0.3
-      tmi-parser:
-        specifier: github:dbkynd/tmi.js#parser
-        version: github.com/dbkynd/tmi.js/4d1d450ec457495649b9ef198de887912fc37c87
+      tmi.js:
+        specifier: ^1.8.5
+        version: 1.8.5
       winston:
         specifier: ^3.11.0
         version: 3.11.0
@@ -214,6 +214,9 @@ importers:
       '@types/node':
         specifier: ^20.10.4
         version: 20.10.4
+      '@types/tmi.js':
+        specifier: ^1.8.6
+        version: 1.8.6
       rimraf:
         specifier: ^5.0.5
         version: 5.0.5

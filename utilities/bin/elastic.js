@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createElasticBody = void 0;
-const tmi_parser_1 = __importDefault(require("tmi-parser"));
+exports.tmiMessage = void 0;
 exports.default = (client, logger, esUrl) => {
     async function ping() {
         const { hostname, pathname } = new URL(esUrl);
@@ -17,8 +13,7 @@ exports.default = (client, logger, esUrl) => {
         ping,
     };
 };
-function createElasticBody(line) {
-    const msg = tmi_parser_1.default.msg(line.message);
+function tmiMessage(msg) {
     for (const tag in msg.tags) {
         if (msg.tags[tag] === true)
             msg.tags[tag] = null;
@@ -42,4 +37,4 @@ function createElasticBody(line) {
         login: name ? name.toLowerCase() : undefined,
     };
 }
-exports.createElasticBody = createElasticBody;
+exports.tmiMessage = tmiMessage;

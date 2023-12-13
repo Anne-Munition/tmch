@@ -1,6 +1,6 @@
 import { Client } from '@elastic/elasticsearch';
 import winston from 'winston';
-import parser from 'tmi-parser';
+import { ChatUserstate } from 'tmi.js';
 
 export default (client: Client, logger: winston.Logger, esUrl: string) => {
   async function ping(): Promise<void> {
@@ -16,9 +16,7 @@ export default (client: Client, logger: winston.Logger, esUrl: string) => {
   };
 };
 
-export function createElasticBody(line: LogLine): ElasticTmi {
-  const msg = parser.msg(line.message);
-
+export function tmiMessage(msg: ChatUserstate): ElasticTmi {
   for (const tag in msg.tags) {
     if (msg.tags[tag] === true) msg.tags[tag] = null;
   }
