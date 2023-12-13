@@ -1,4 +1,5 @@
 import { Client } from '@elastic/elasticsearch';
+import utilities from 'utilities';
 import { esUrl } from '../config';
 import logger from '../logger';
 
@@ -14,12 +15,8 @@ export function init() {
   });
 }
 
-export async function ping(): Promise<void> {
-  const { hostname, pathname } = new URL(esUrl);
-  const response = await client.ping();
-  if (!response)
-    throw new Error(`Unable to connect to ElasticSearch server: '${hostname}${pathname}'`);
-  logger.info(`Connected to ElasticSearch: '${hostname}'`);
+export async function ping() {
+  return utilities.elastic(client, logger, esUrl).ping();
 }
 
 export async function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]) {

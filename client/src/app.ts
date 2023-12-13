@@ -1,6 +1,6 @@
 import channels from './channels';
 import * as config from './config';
-import * as database from './database';
+import database from './database';
 import * as elastic from './elastic';
 import logger from './logger';
 import * as queue from './queue';

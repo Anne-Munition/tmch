@@ -6,7 +6,11 @@
     "build": "rimraf ./bin && tsc"
   },
   "dependencies": {
-    "luxon": "^3.4.4"
+    "@elastic/elasticsearch": "^8.10.0",
+    "luxon": "^3.4.4",
+    "mongoose": "^8.0.3",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.7",

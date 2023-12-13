@@ -1,4 +1,4 @@
-import ViewerService from './database/lib/viewers';
+import utilities from 'utilities';
 import { bulkIndexTmi } from './elastic';
 import logger from './logger';
 
@@ -27,7 +27,7 @@ async function process() {
   const messages = queue.splice(0, length);
   if (messages.length) {
     await bulkIndexTmi(messages).catch(() => {});
-    await ViewerService.store(messages).catch(() => {});
+    await utilities.ViewerService.store(messages).catch(() => {});
   }
   processing = false;
   logger.debug('done processing tmi queue');
