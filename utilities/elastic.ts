@@ -54,9 +54,8 @@ export function tmiMessage(msg: ChatUserstate): ElasticTmi {
 }
 
 export function getIndex(channel: string) {
-  return process.env.NODE_ENV === 'production'
-    ? `tmi-${channel.slice(1)}`
-    : `dev-tmi-${channel.slice(1)}`;
+  if (channel.startsWith('#')) channel = channel.slice(1);
+  return process.env.NODE_ENV === 'production' ? `tmi-${channel}` : `dev-tmi-${channel}`;
 }
 
 export async function bulkIndexTmi(data: { channel: string; message: ElasticTmi }[]) {

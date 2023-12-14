@@ -7,8 +7,6 @@ import { DateTime } from 'luxon';
 import parser from 'tmi-parser';
 import { elastic } from 'utilities';
 
-const client = elastic.getClient();
-
 export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) {
   const searches: MsearchRequestItem[] = [];
   messages.forEach((message) => {
@@ -26,7 +24,10 @@ export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) 
     searches.push(header);
     searches.push(body);
   });
-  return client.msearch({ searches }).then((data) => data.responses);
+  return elastic
+    .getClient()
+    .msearch({ searches })
+    .then((data) => data.responses);
 }
 
 export async function looseBulkSearch(channel: string, messages: LogLine[]) {
@@ -59,7 +60,10 @@ export async function looseBulkSearch(channel: string, messages: LogLine[]) {
     searches.push(header);
     searches.push(body);
   });
-  return client.msearch({ searches }).then((data) => data.responses);
+  return elastic
+    .getClient()
+    .msearch({ searches })
+    .then((data) => data.responses);
 }
 
 export function createElasticBody(line: LogLine): ElasticTmi {
