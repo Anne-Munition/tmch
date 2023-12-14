@@ -1,9 +1,11 @@
 import { createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
+import path from 'path';
 
-export default (logDir: string) => {
-  const { combine, timestamp, colorize, printf } = format;
+const { combine, timestamp, colorize, printf } = format;
+const logDir = path.join(process.cwd(), 'logs');
 
+export default () => {
   const enumerateErrorFormat = format((info) => {
     if (info.message instanceof Error) {
       info.message = Object.assign(
@@ -61,3 +63,29 @@ export default (logDir: string) => {
 
   return logger;
 };
+
+class MyStream {
+  logFormat = printf((info) => {
+    return `${info.timestamp} ${info.message}`;
+  });
+
+  logger = createLogger({
+    format: combine(timestamp(), this.logFormat),
+    transports: [
+      new transports.DailyRotateFile({
+        level: 'info',
+        dirname: logDir,
+        filename: '%DATE%-http.log',
+        datePattern: 'YYYY-MM-DD',
+        zippedArchive: true,
+        maxFiles: '30d',
+      }),
+    ],
+  });
+
+  write(text: string) {
+    this.logger.info(text.trim());
+  }
+}
+
+export const stream = new MyStream();

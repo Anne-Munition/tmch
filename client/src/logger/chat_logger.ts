@@ -5,9 +5,9 @@ import { gzip } from 'node-gzip';
 import { Logger, createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
 import channels from '../channels';
-import { chatLogDir } from '../directories';
 
 const { combine, timestamp, printf } = format;
+export const chatLogDir = path.join(process.cwd(), 'data');
 
 const chatLoggers: { [key: string]: Logger } = {};
 
