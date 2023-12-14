@@ -1,5 +1,7 @@
+import path from 'path';
+
 export const doWrite = process.env.WRITE === 'true';
-export const esUrl = process.env.ES_URL || 'http://127.0.0.1:9200';
+export const dataDir = path.join(process.cwd(), 'data');
 
 export function verify() {
   if (!process.env.CHANNELS) throw new Error('Missing CHANNELS environment variable.');

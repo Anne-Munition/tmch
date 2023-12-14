@@ -26,21 +26,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.server = exports.main = exports.ViewerService = exports.elastic = exports.database = exports.logger = exports.uptime = exports.version = void 0;
 const version_1 = __importDefault(require("./version"));
 const uptime_1 = __importDefault(require("./uptime"));
 const logger_1 = __importDefault(require("./logger"));
-const database_1 = __importDefault(require("./database"));
-const elastic_1 = __importStar(require("./elastic"));
+const _database = __importStar(require("./database"));
+const _elastic = __importStar(require("./elastic"));
 const viewer_service_1 = __importDefault(require("./database/lib/viewers/viewer_service"));
 const main_1 = __importDefault(require("./main"));
-exports.default = {
-    version: version_1.default,
-    uptime: uptime_1.default,
-    logger: logger_1.default,
-    database: database_1.default,
-    elastic: elastic_1.default,
-    ViewerService: viewer_service_1.default,
-    main: main_1.default,
-    parser: elastic_1.tmiMessage,
-    getIndex: elastic_1.getIndex,
-};
+const server_1 = __importDefault(require("./server"));
+exports.version = version_1.default;
+exports.uptime = uptime_1.default;
+exports.logger = logger_1.default;
+exports.database = _database;
+exports.elastic = _elastic;
+exports.ViewerService = viewer_service_1.default;
+exports.main = main_1.default;
+exports.server = server_1.default;

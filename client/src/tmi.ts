@@ -1,10 +1,9 @@
 import { ChatUserstate, Client } from 'tmi.js';
-import utilities from 'utilities';
-import channels from '../channels';
-import { doWrite } from '../config';
-import logger from '../logger';
-import chatLoggers from '../logger/chat_logger';
-import * as queue from '../queue';
+import { elastic, logger } from 'utilities';
+import channels from './channels';
+import chatLoggers from './chat_logger';
+import { doWrite } from './config';
+import * as queue from './queue';
 
 const client = new Client({
   connection: {
@@ -46,7 +45,7 @@ client.on('raw_message', async (msg: ChatUserstate) => {
   if (chatLoggers[channel]) chatLoggers[channel].info(msg.raw, { command: msg.command });
 
   if (doWrite) {
-    const message = utilities.parser(msg);
+    const message = elastic.tmiMessage(msg);
     queue.add(channel, message);
   }
 });

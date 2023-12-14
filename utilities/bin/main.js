@@ -1,13 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (app, logger) => {
+const logger_1 = __importDefault(require("./logger"));
+exports.default = (app) => {
     app
         .start()
         .then(() => {
-        logger.info('Startup complete');
+        logger_1.default.info('Startup complete');
     })
         .catch((e) => {
-        logger.error(e);
+        logger_1.default.error(e);
     });
     const signals = ['SIGHUP', 'SIGINT', 'SIGTERM'];
     signals.forEach((signal) => {
@@ -16,9 +20,9 @@ exports.default = (app, logger) => {
         });
     });
     const shutdown = (signal) => {
-        logger.info(`Received a ${signal} signal. Attempting graceful shutdown...`);
+        logger_1.default.info(`Received a ${signal} signal. Attempting graceful shutdown...`);
         app.stop().finally(() => {
-            logger.info(`Shutdown completed. Exiting.`);
+            logger_1.default.info(`Shutdown completed. Exiting.`);
             process.exit(0);
         });
     };
@@ -29,7 +33,7 @@ exports.default = (app, logger) => {
         logException('unhandledRejection', err);
     });
     function logException(type, err) {
-        logger.error(type);
-        logger.error(err);
+        logger_1.default.error(type);
+        logger_1.default.error(err);
     }
 };

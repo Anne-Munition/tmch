@@ -1,11 +1,9 @@
+import { database, elastic, logger } from 'utilities';
 import channels from './channels';
 import * as config from './config';
-import database from './database';
-import * as elastic from './elastic';
-import logger from './logger';
 import * as queue from './queue';
-import * as server from './server';
-import * as tmi from './twitch/tmi';
+import server from './server';
+import * as tmi from './tmi';
 
 async function start() {
   config.verify();

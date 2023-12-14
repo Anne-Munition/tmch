@@ -1,8 +1,7 @@
-import utilities from 'utilities';
+import { database, uptime, version } from 'utilities';
 import channels from '../../channels';
 import { doWrite } from '../../config';
-import database from '../../database';
-import * as tmi from '../../twitch/tmi';
+import * as tmi from '../../tmi';
 
 export default function getStatus(): Status {
   const connected: ConnectedStatus = { tmi: tmi.isConnected() };
@@ -13,7 +12,7 @@ export default function getStatus(): Status {
     writeable: doWrite,
     connected,
     system_ts: Date.now(),
-    uptime: utilities.uptime(),
-    version: utilities.version(),
+    uptime: uptime(),
+    version: version(),
   };
 }

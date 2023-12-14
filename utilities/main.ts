@@ -1,6 +1,6 @@
-import winston from 'winston';
+import logger from './logger';
 
-export default (app: App, logger: winston.Logger) => {
+export default (app: App) => {
   app
     .start()
     .then(() => {

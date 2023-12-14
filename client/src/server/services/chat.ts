@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { ungzip } from 'node-gzip';
-import { chatLogDir } from '../../directories';
+import { dataDir } from '../../config';
 
 async function getChatFileName(channelName: string, date: string): Promise<string | null> {
   const channel = '#' + channelName.toLowerCase().replace('#', '');
-  const directory = path.join(chatLogDir, channel);
+  const directory = path.join(dataDir, channel);
 
   const logPath = path.join(directory, `${channel}-${date}.log`);
   const logExists = await exists(logPath);

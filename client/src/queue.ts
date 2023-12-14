@@ -1,6 +1,4 @@
-import utilities from 'utilities';
-import { bulkIndexTmi } from './elastic';
-import logger from './logger';
+import { ViewerService, elastic, logger } from 'utilities';
 
 const queue: { channel: string; message: ElasticTmi }[] = [];
 let processing = false;
@@ -26,10 +24,10 @@ async function process() {
   if (timer) clearTimeout(timer);
   const messages = queue.splice(0, length);
   if (messages.length) {
-    await bulkIndexTmi(messages).catch((e) => {
+    await elastic.bulkIndexTmi(messages).catch((e) => {
       logger.error(e);
     });
-    await utilities.ViewerService.store(messages.map((x) => x.message)).catch((e) => {
+    await ViewerService.store(messages.map((x) => x.message)).catch((e) => {
       logger.error(e);
     });
   }
