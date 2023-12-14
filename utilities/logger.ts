@@ -86,4 +86,4 @@ class MyStream {
   }
 }
 
-export const stream = new MyStream();
+export const httpLogger = new MyStream();

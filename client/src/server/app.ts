@@ -1,12 +1,13 @@
 import compression from 'compression';
 import express from 'express';
 import morgan from 'morgan';
+import { httpLogger } from 'utilities';
 import ChatService from './services/chat';
 import StatusService from './services/status';
 
 const app = express();
 app.use(compression());
-if (process.env.NODE_ENV === 'production') app.use(morgan('short'));
+if (process.env.NODE_ENV === 'production') app.use(morgan('short', { stream: httpLogger }));
 else app.use(morgan('dev'));
 
 app.get('/status', (req, res, next) => {

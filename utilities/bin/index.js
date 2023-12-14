@@ -26,10 +26,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.server = exports.main = exports.ViewerService = exports.elastic = exports.database = exports.logger = exports.uptime = exports.version = void 0;
+exports.httpLogger = exports.server = exports.main = exports.ViewerService = exports.elastic = exports.database = exports.logger = exports.uptime = exports.version = void 0;
 const version_1 = __importDefault(require("./version"));
 const uptime_1 = __importDefault(require("./uptime"));
-const logger_1 = __importDefault(require("./logger"));
+const logger_1 = __importStar(require("./logger"));
 const _database = __importStar(require("./database"));
 const _elastic = __importStar(require("./elastic"));
 const viewer_service_1 = __importDefault(require("./database/lib/viewers/viewer_service"));
@@ -43,3 +43,4 @@ exports.elastic = _elastic;
 exports.ViewerService = viewer_service_1.default;
 exports.main = main_1.default;
 exports.server = server_1.default;
+exports.httpLogger = logger_1.httpLogger;

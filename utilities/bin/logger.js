@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stream = void 0;
+exports.httpLogger = void 0;
 const winston_1 = require("winston");
 require("winston-daily-rotate-file");
 const path_1 = __importDefault(require("path"));
@@ -75,4 +75,4 @@ class MyStream {
         this.logger.info(text.trim());
     }
 }
-exports.stream = new MyStream();
+exports.httpLogger = new MyStream();
