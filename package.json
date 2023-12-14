@@ -5,8 +5,5 @@
     "node": ">=20.10.0",
     "pnpm": ">=8.11.0"
   },
-  "engineStrict": true,
-  "scripts": {
-    "postinstall": "cd ./utilities && pnpm run build"
-  }
+  "engineStrict": true
 }

@@ -1,13 +1,13 @@
+import { database, elastic, logger } from 'utilities';
 import * as config from './config';
 import cron from './cron';
-import database from './database';
-import * as elastic from './elastic';
-import logger from './logger';
 import * as pushover from './pushover';
+import servers from './servers';
 import * as status from './status';
 
 async function start() {
-  config.validate();
+  config.verify();
+  logger.info(`Running checks on ${servers.length} servers`);
   await database.connect();
   elastic.init();
   await elastic.ping();

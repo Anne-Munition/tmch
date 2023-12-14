@@ -1,5 +1,5 @@
 import PushoverNotifications from 'pushover-notifications';
-import logger from './logger';
+import { logger } from 'utilities';
 
 let client: PushoverNotifications;
 

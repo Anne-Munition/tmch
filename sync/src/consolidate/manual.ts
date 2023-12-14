@@ -1,6 +1,4 @@
-import database from '../database';
-import * as elastic from '../elastic';
-import logger from '../logger';
+import { database, elastic, logger } from 'utilities';
 import { consolidate } from './index';
 
 async function run() {

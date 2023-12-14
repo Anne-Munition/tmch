@@ -1,8 +1,8 @@
 import { CronJob } from 'cron';
 import cronstrue from 'cronstrue';
+import { logger } from 'utilities';
 import consolidate from './consolidate';
 import dailyReport from './dailyReport';
-import logger from './logger';
 
 export default function (): void {
   if (process.env.DAILY_REPORT_CRON) {

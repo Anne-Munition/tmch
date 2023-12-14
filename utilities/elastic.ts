@@ -66,3 +66,7 @@ export async function bulkIndexTmi(data: { channel: string; message: ElasticTmi 
   });
   return client.bulk({ operations });
 }
+
+export function getClient(): Client {
+  return client;
+}

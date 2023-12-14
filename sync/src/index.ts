@@ -1,7 +1,6 @@
-import utilities from 'utilities';
+import { logger, main, version } from 'utilities';
 import app from './app';
-import logger from './logger';
 
-logger.info(`Starting Sync Application v${utilities.version()}...`);
+logger.info(`Starting Sync Application v${version()}...`);
 
-utilities.main(app, logger);
+main(app);

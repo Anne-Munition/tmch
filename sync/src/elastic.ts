@@ -1,4 +1,3 @@
-import { Client } from '@elastic/elasticsearch';
 import {
   MsearchMultisearchBody,
   MsearchMultisearchHeader,
@@ -6,30 +5,14 @@ import {
 } from '@elastic/elasticsearch/lib/api/types';
 import { DateTime } from 'luxon';
 import parser from 'tmi-parser';
-import utilities from 'utilities';
-import { esUrl } from '../config';
-import logger from '../logger';
+import { elastic } from 'utilities';
 
-let client: Client;
-
-export function init() {
-  client = new Client({
-    node: esUrl,
-    /*auth: {
-      username: process.env.ES_USERNAME as string,
-      password: process.env.ES_PASSWORD as string,
-    },*/
-  });
-}
-
-export async function ping() {
-  return utilities.elastic(client, logger, esUrl).ping();
-}
+const client = elastic.getClient();
 
 export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) {
   const searches: MsearchRequestItem[] = [];
   messages.forEach((message) => {
-    const header: MsearchMultisearchHeader = { index: utilities.getIndex(channel) };
+    const header: MsearchMultisearchHeader = { index: elastic.getIndex(channel) };
     const body: MsearchMultisearchBody = {
       query: {
         bool: {
@@ -46,18 +29,10 @@ export async function tmiStrictBulkSearch(channel: string, messages: LogLine[]) 
   return client.msearch({ searches }).then((data) => data.responses);
 }
 
-export async function tmiBulkIndex(channel: string, messages: ElasticTmi[]) {
-  const operations = messages.map((message) => {
-    const meta = { create: { _index: utilities.getIndex(channel) } };
-    return JSON.stringify(meta) + '\n' + JSON.stringify(message);
-  });
-  return client.bulk({ operations });
-}
-
 export async function looseBulkSearch(channel: string, messages: LogLine[]) {
   const searches: MsearchRequestItem[] = [];
   messages.forEach((message) => {
-    const header: MsearchMultisearchHeader = { index: utilities.getIndex(channel) };
+    const header: MsearchMultisearchHeader = { index: elastic.getIndex(channel) };
     const body: MsearchMultisearchBody = {
       query: {
         bool: {
@@ -88,5 +63,5 @@ export async function looseBulkSearch(channel: string, messages: LogLine[]) {
 }
 
 export function createElasticBody(line: LogLine): ElasticTmi {
-  return utilities.parser(parser.msg(line.message));
+  return elastic.tmiMessage(parser.msg(line.message));
 }

@@ -1,9 +1,8 @@
 import axios from 'axios';
 import lodash from 'lodash';
 import { DateTime, Duration } from 'luxon';
-import utilities from 'utilities';
-import * as elastic from '../elastic';
-import logger from '../logger';
+import { ViewerService, elastic, logger } from 'utilities';
+import { createElasticBody, looseBulkSearch, tmiStrictBulkSearch } from '../elastic';
 import * as pushover from '../pushover';
 import servers from '../servers';
 import { getDatesToProcess, getStartDate, saveAddedLines, saveStartDate } from './dates';
@@ -208,7 +207,7 @@ async function processStrictLines(logs: LogLine[]): Promise<LogLine[]> {
   const addedLines: LogLine[] = [];
   const chunkedLogs = lodash.chunk(logs, 100);
   for (let i = 0; i < chunkedLogs.length; i++) {
-    const results = await elastic.tmiStrictBulkSearch(channel as string, chunkedLogs[i]);
+    const results = await tmiStrictBulkSearch(channel as string, chunkedLogs[i]);
     const toAdd: LogLine[] = [];
     for (let j = 0; j < results.length; j++) {
       const log = chunkedLogs[i][j];
@@ -221,10 +220,15 @@ async function processStrictLines(logs: LogLine[]): Promise<LogLine[]> {
     }
     if (toAdd.length) {
       addedLines.push(...toAdd);
-      const messages = toAdd.map((x) => elastic.createElasticBody(x));
-      await elastic.tmiBulkIndex(channel as string, messages);
+      const messages = toAdd.map((x) => {
+        return {
+          channel: channel as string,
+          message: createElasticBody(x),
+        };
+      });
+      await elastic.bulkIndexTmi(messages);
     }
-    await utilities.ViewerService.store(chunkedLogs[i].map((x) => elastic.createElasticBody(x)));
+    await ViewerService.store(chunkedLogs[i].map((x) => createElasticBody(x)));
   }
   return addedLines;
 }
@@ -234,7 +238,7 @@ async function processLooseLines(logs: LogLine[]): Promise<LogLine[]> {
   const addedLines: LogLine[] = [];
   const chunkedLogs = lodash.chunk(logs, 100);
   for (let i = 0; i < chunkedLogs.length; i++) {
-    const results = await elastic.looseBulkSearch(channel as string, logs);
+    const results = await looseBulkSearch(channel as string, logs);
     const toAdd: LogLine[] = [];
     for (let j = 0; j < results.length; j++) {
       const log = chunkedLogs[i][j];
@@ -247,10 +251,15 @@ async function processLooseLines(logs: LogLine[]): Promise<LogLine[]> {
     }
     if (toAdd.length) {
       addedLines.push(...toAdd);
-      const messages = toAdd.map((x) => elastic.createElasticBody(x));
-      await elastic.tmiBulkIndex(channel as string, messages);
+      const messages = toAdd.map((x) => {
+        return {
+          channel: channel as string,
+          message: createElasticBody(x),
+        };
+      });
+      await elastic.bulkIndexTmi(messages);
     }
-    await utilities.ViewerService.store(chunkedLogs[i].map((x) => elastic.createElasticBody(x)));
+    await ViewerService.store(chunkedLogs[i].map((x) => createElasticBody(x)));
   }
   return addedLines;
 }
