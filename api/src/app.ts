@@ -1,9 +1,10 @@
-import * as database from './database';
-import logger from './logger';
-import * as server from './server';
+import { database, elastic, logger } from 'utilities';
+import server from './server';
 
 async function start() {
   await database.connect();
+  elastic.init();
+  await elastic.ping();
   server.start();
 }
 

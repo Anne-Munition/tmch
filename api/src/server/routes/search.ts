@@ -1,5 +1,5 @@
 import express from 'express';
-import ViewerService from '../../database/lib/viewers';
+import { ViewerService } from 'utilities';
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import ViewerModel from './viewer_model';
+import ViewerModel, { ViewerDoc } from './viewer_model';
 import _ from 'lodash';
 
 async function store(messages: ElasticTmi[]) {
@@ -19,6 +19,11 @@ async function store(messages: ElasticTmi[]) {
   return ViewerModel.collection.bulkWrite(items);
 }
 
+async function search(partialName: string): Promise<ViewerDoc[]> {
+  return ViewerModel.find({ login: { $regex: partialName, $options: 'i' } });
+}
+
 export default {
   store,
+  search,
 };
