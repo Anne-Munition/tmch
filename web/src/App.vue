@@ -1,7 +1,7 @@
 <template>
   <v-app>
+    <AppBar />
     <v-main>
-      <AppBar />
       <RouterView />
     </v-main>
   </v-app>

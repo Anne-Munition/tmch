@@ -23,7 +23,12 @@ async function search(partialName: string): Promise<ViewerDoc[]> {
   return ViewerModel.find({ login: { $regex: partialName, $options: 'i' } });
 }
 
+async function get(id: string): Promise<ViewerDoc | null> {
+  return ViewerModel.findOne({ twitchId: id });
+}
+
 export default {
   store,
   search,
+  get,
 };

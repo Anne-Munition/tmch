@@ -11,7 +11,21 @@ router.get('/viewers', async (req, res, next) => {
   }
   try {
     const viewers = await ViewerService.search(partialName);
-    res.status(200).json(viewers.map((x) => x.displayName));
+    res.status(200).json(viewers);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/viewer/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const viewer = await ViewerService.get(id);
+    if (!viewer) {
+      res.sendStatus(400);
+      return;
+    }
+    res.status(200).json(viewer);
   } catch (e) {
     next(e);
   }
