@@ -1,5 +1,7 @@
 <template>
-  <v-btn @click="logout">Logout</v-btn>
+  <div @click="logout" class="container">
+    <slot></slot>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -13,4 +15,8 @@ function logout() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  cursor: pointer;
+}
+</style>

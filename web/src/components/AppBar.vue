@@ -16,9 +16,14 @@
       </template>
 
       <v-list>
-        <v-list-item>
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item>
+        <LogoutSlot>
+          <v-list-item>
+            <v-btn color="red">
+              <v-icon icon="mdi-logout" class="mr-2"></v-icon>
+              Logout
+            </v-btn>
+          </v-list-item>
+        </LogoutSlot>
       </v-list>
     </v-menu>
   </v-app-bar>
@@ -26,8 +31,11 @@
 
 <script setup lang="ts">
 import useUserStore from '@/stores/user';
+import LogoutSlot from '@/components/slots/LogoutSlot.vue';
 
 const userStore = useUserStore();
+
+function logout() {}
 </script>
 
 <style scoped>
