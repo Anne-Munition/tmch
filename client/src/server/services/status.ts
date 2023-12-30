@@ -1,5 +1,5 @@
 import { database, uptime, version } from 'utilities';
-import channels from '../../channels';
+import { twitchChannels as channels } from '../../channels';
 import { doWrite } from '../../config';
 import * as tmi from '../../tmi';
 

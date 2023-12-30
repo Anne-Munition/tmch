@@ -1,6 +1,6 @@
 import { ChatUserstate, Client } from 'tmi.js';
 import { elastic, logger } from 'utilities';
-import channels from './channels';
+import { twitchChannels as channels } from './channels';
 import chatLoggers from './chat_logger';
 import { doWrite } from './config';
 import * as queue from './queue';

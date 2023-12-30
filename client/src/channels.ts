@@ -1,4 +1,4 @@
-const channels: string[] = (process.env.CHANNELS || '')
+export const twitchChannels: string[] = (process.env.TWITCH_CHANNELS || '')
   .split(',')
   .filter((x) => x)
   .map((channel) => {
@@ -10,5 +10,3 @@ const channels: string[] = (process.env.CHANNELS || '')
     return 0;
   })
   .map((x) => `#${x}`);
-
-export default channels;

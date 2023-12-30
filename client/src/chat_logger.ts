@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { gzip } from 'node-gzip';
 import { Logger, createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
-import channels from './channels';
+import { twitchChannels as channels } from './channels';
 
 const { combine, timestamp, printf } = format;
 export const chatLogDir = path.join(process.cwd(), 'data');
